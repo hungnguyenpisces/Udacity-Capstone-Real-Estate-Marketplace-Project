@@ -1,8 +1,10 @@
-// migrating the appropriate contracts
-var SquareVerifier = artifacts.require("./SquareVerifier.sol");
-var SolnSquareVerifier = artifacts.require("./SolnSquareVerifier.sol");
 
-module.exports = function(deployer) {
-  deployer.deploy(SquareVerifier);
-  deployer.deploy(SolnSquareVerifier);
+let SolnSquareVerifier = artifacts.require("SolnSquareVerifier");
+let CapstoneERC721Token = artifacts.require("CapstoneERC721Token");
+let Verifier = artifacts.require("Verifier");
+
+module.exports = async function (deployer) {
+  await deployer.deploy(CapstoneERC721Token);
+  await deployer.deploy(Verifier);
+  await deployer.deploy(SolnSquareVerifier, Verifier.address);
 };

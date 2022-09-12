@@ -7,9 +7,7 @@ module.exports = {
       provider: function () {
         return new HDWalletProvider(
           process.env.SECRET_PHRASE,
-          'http://127.0.0.1:8545/',
-          0,
-          50
+          'http://127.0.0.1:8545/'
         );
       },
       gas: 5000000,

@@ -1,3 +1,6 @@
+//SPDX-License-Identifier: CC BY-NC-ND 4.0
+pragma solidity ^0.8.0; // Incompatible compiler version - please select a compiler within the stated pragma range, or use a different version of the oraclizeAPI!
+
 /*
 
 ORACLIZE_API
@@ -24,67 +27,67 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
-//SPDX-License-Identifier: CC BY-NC-ND 4.0
-pragma solidity ^0.8.0; // Incompatible compiler version - please select a compiler within the stated pragma range, or use a different version of the oraclizeAPI!
-
 // Dummy contract only used to emit to end-user they are using wrong solc
-contract solcChecker {
+abstract contract solcChecker {
     /* INCOMPATIBLE SOLC: import the following instead: "github.com/oraclize/ethereum-api/oraclizeAPI_0.4.sol" */
-    function f(bytes calldata x) external;
+    function f(bytes calldata x) external virtual;
 }
 
-contract OraclizeI {
+abstract contract OraclizeI {
     address public cbAddress;
 
-    function setProofType(bytes1 _proofType) external;
+    function setProofType(bytes1 _proofType) external virtual;
 
-    function setCustomGasPrice(uint256 _gasPrice) external;
+    function setCustomGasPrice(uint256 _gasPrice) external virtual;
 
     function getPrice(string memory _datasource)
         public
+        virtual
         returns (uint256 _dsprice);
 
     function randomDS_getSessionPubKeyHash()
         external
         view
+        virtual
         returns (bytes32 _sessionKeyHash);
 
     function getPrice(string memory _datasource, uint256 _gasLimit)
         public
+        virtual
         returns (uint256 _dsprice);
 
     function queryN(
         uint256 _timestamp,
         string memory _datasource,
         bytes memory _argN
-    ) public payable returns (bytes32 _id);
+    ) public payable virtual returns (bytes32 _id);
 
     function query(
         uint256 _timestamp,
         string calldata _datasource,
         string calldata _arg
-    ) external payable returns (bytes32 _id);
+    ) external payable virtual returns (bytes32 _id);
 
     function query2(
         uint256 _timestamp,
         string memory _datasource,
         string memory _arg1,
         string memory _arg2
-    ) public payable returns (bytes32 _id);
+    ) public payable virtual returns (bytes32 _id);
 
     function query_withGasLimit(
         uint256 _timestamp,
         string calldata _datasource,
         string calldata _arg,
         uint256 _gasLimit
-    ) external payable returns (bytes32 _id);
+    ) external payable virtual returns (bytes32 _id);
 
     function queryN_withGasLimit(
         uint256 _timestamp,
         string calldata _datasource,
         bytes calldata _argN,
         uint256 _gasLimit
-    ) external payable returns (bytes32 _id);
+    ) external payable virtual returns (bytes32 _id);
 
     function query2_withGasLimit(
         uint256 _timestamp,
@@ -92,11 +95,11 @@ contract OraclizeI {
         string calldata _arg1,
         string calldata _arg2,
         uint256 _gasLimit
-    ) external payable returns (bytes32 _id);
+    ) external payable virtual returns (bytes32 _id);
 }
 
-contract OraclizeAddrResolverI {
-    function getAddress() public returns (address _address);
+abstract contract OraclizeAddrResolverI {
+    function getAddress() public virtual returns (address _address);
 }
 
 /*
@@ -166,7 +169,7 @@ library Buffer {
      *      would exceed the capacity of the buffer.
      * @param _buf The buffer to append to.
      * @param _data The data to append.
-     * @return The original buffer.
+     * @return _buffer The original buffer.
      *
      */
     function append(buffer memory _buf, bytes memory _data)
@@ -210,7 +213,7 @@ library Buffer {
      * exceed the capacity of the buffer.
      * @param _buf The buffer to append to.
      * @param _data The data to append.
-     * @return The original buffer.
+     * return The original buffer.
      *
      */
     function append(buffer memory _buf, uint8 _data) internal pure {
@@ -232,7 +235,7 @@ library Buffer {
      * exceed the capacity of the buffer.
      * @param _buf The buffer to append to.
      * @param _data The data to append.
-     * @return The original buffer.
+     * @return _buffer The original buffer.
      *
      */
     function appendInt(
@@ -519,7 +522,7 @@ contract usingOraclize {
         if (price > 1 ether + tx.gasprice * 200000) {
             return 0; // Unexpectedly high price
         }
-        return oraclize.query.value(price)(0, _datasource, _arg);
+        return oraclize.query{value: price}(0, _datasource, _arg);
     }
 
     function oraclize_query(
@@ -531,7 +534,7 @@ contract usingOraclize {
         if (price > 1 ether + tx.gasprice * 200000) {
             return 0; // Unexpectedly high price
         }
-        return oraclize.query.value(price)(_timestamp, _datasource, _arg);
+        return oraclize.query{value: price}(_timestamp, _datasource, _arg);
     }
 
     function oraclize_query(
@@ -545,7 +548,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         return
-            oraclize.query_withGasLimit.value(price)(
+            oraclize.query_withGasLimit{value: price}(
                 _timestamp,
                 _datasource,
                 _arg,
@@ -563,7 +566,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         return
-            oraclize.query_withGasLimit.value(price)(
+            oraclize.query_withGasLimit{value: price}(
                 0,
                 _datasource,
                 _arg,
@@ -580,7 +583,7 @@ contract usingOraclize {
         if (price > 1 ether + tx.gasprice * 200000) {
             return 0; // Unexpectedly high price
         }
-        return oraclize.query2.value(price)(0, _datasource, _arg1, _arg2);
+        return oraclize.query2{value: price}(0, _datasource, _arg1, _arg2);
     }
 
     function oraclize_query(
@@ -594,7 +597,12 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         return
-            oraclize.query2.value(price)(_timestamp, _datasource, _arg1, _arg2);
+            oraclize.query2{value: price}(
+                _timestamp,
+                _datasource,
+                _arg1,
+                _arg2
+            );
     }
 
     function oraclize_query(
@@ -609,7 +617,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         return
-            oraclize.query2_withGasLimit.value(price)(
+            oraclize.query2_withGasLimit{value: price}(
                 _timestamp,
                 _datasource,
                 _arg1,
@@ -629,7 +637,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         return
-            oraclize.query2_withGasLimit.value(price)(
+            oraclize.query2_withGasLimit{value: price}(
                 0,
                 _datasource,
                 _arg1,
@@ -648,7 +656,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         bytes memory args = stra2cbor(_argN);
-        return oraclize.queryN.value(price)(0, _datasource, args);
+        return oraclize.queryN{value: price}(0, _datasource, args);
     }
 
     function oraclize_query(
@@ -661,7 +669,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         bytes memory args = stra2cbor(_argN);
-        return oraclize.queryN.value(price)(_timestamp, _datasource, args);
+        return oraclize.queryN{value: price}(_timestamp, _datasource, args);
     }
 
     function oraclize_query(
@@ -676,7 +684,7 @@ contract usingOraclize {
         }
         bytes memory args = stra2cbor(_argN);
         return
-            oraclize.queryN_withGasLimit.value(price)(
+            oraclize.queryN_withGasLimit{value: price}(
                 _timestamp,
                 _datasource,
                 args,
@@ -695,7 +703,7 @@ contract usingOraclize {
         }
         bytes memory args = stra2cbor(_argN);
         return
-            oraclize.queryN_withGasLimit.value(price)(
+            oraclize.queryN_withGasLimit{value: price}(
                 0,
                 _datasource,
                 args,
@@ -958,7 +966,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         bytes memory args = ba2cbor(_argN);
-        return oraclize.queryN.value(price)(0, _datasource, args);
+        return oraclize.queryN{value: price}(0, _datasource, args);
     }
 
     function oraclize_query(
@@ -971,7 +979,7 @@ contract usingOraclize {
             return 0; // Unexpectedly high price
         }
         bytes memory args = ba2cbor(_argN);
-        return oraclize.queryN.value(price)(_timestamp, _datasource, args);
+        return oraclize.queryN{value: price}(_timestamp, _datasource, args);
     }
 
     function oraclize_query(
@@ -986,7 +994,7 @@ contract usingOraclize {
         }
         bytes memory args = ba2cbor(_argN);
         return
-            oraclize.queryN_withGasLimit.value(price)(
+            oraclize.queryN_withGasLimit{value: price}(
                 _timestamp,
                 _datasource,
                 args,
@@ -1005,7 +1013,7 @@ contract usingOraclize {
         }
         bytes memory args = ba2cbor(_argN);
         return
-            oraclize.queryN_withGasLimit.value(price)(
+            oraclize.queryN_withGasLimit{value: price}(
                 0,
                 _datasource,
                 args,
@@ -1602,7 +1610,7 @@ contract usingOraclize {
             */
             mstore(
                 add(unonce, 0x20),
-                xor(blockhash(sub(number, 1)), xor(coinbase, timestamp))
+                xor(blockhash(sub(number(), 1)), xor(coinbase(), timestamp()))
             )
             mstore(sessionKeyHash, 0x20)
             mstore(add(sessionKeyHash, 0x20), sessionKeyHash_bytes32)
@@ -1991,7 +1999,7 @@ contract usingOraclize {
     function safeMemoryCleaner() internal pure {
         assembly {
             let fmem := mload(0x40)
-            codecopy(fmem, codesize, sub(msize, fmem))
+            codecopy(fmem, codesize(), sub(msize(), fmem))
         }
     }
 }
