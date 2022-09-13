@@ -182,7 +182,12 @@ Summary
 > Final cost:          0.01294847646006565 ETH
 ```
 
+![](img/opensea.png)
+
 ## ABI
+
+<details>
+<summary>Expand/Collapse</summary>
 
 ```json
   "abi": [
@@ -806,6 +811,8 @@ Summary
     }
   ]
 ```
+
+</details>
 
 ## Project Resources
 
