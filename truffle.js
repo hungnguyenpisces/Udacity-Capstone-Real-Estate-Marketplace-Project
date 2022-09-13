@@ -13,14 +13,13 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           "sing call wheat amazing day finish decrease poem color used top under",
-          "https://rinkeby.infura.io/v3/c2886ad777634746b29b9ab3fe18bf3c"
+          "wss://eth-goerli.g.alchemy.com/v2/w9JvaFGn8FNoac0xNW6ZlO9L19Vw0Z3E"
         ),
-      gas: 5000000,
-      gasPrice: 50000000000,
       confirmation: 2,
-      network_id: '4',
+      network_id: '*',
       networkCheckTimeout: 10000,
-      timeoutBlocks: 600
+      timeoutBlocks: 600,
+      skipDryRun: true
     },
   },
   compilers: {

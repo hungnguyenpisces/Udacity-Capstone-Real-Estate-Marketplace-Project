@@ -1,5 +1,34 @@
 # Udacity Blockchain Capstone
 
+## Rinkeby Contract Address:
+
+https://goerli.etherscan.io/address/0x4656691a3e008d4bb037e711042aad3603612b0a
+
+| Contract Name      | Contract Address                           |
+| ------------------ | ------------------------------------------ |
+| Migrations         | 0x3E137FB2f50AE48fd600727FF681284A8F164ec7 |
+| Verifier           | 0x2FC3EC36bcD4A7685bbe0C9AEb7f81b44FdA694F |
+| SolnSquareVerifier | 0x6d49a7868C37C35173DCa74337D3c7506fD88117 |
+
+## OpenSea
+
+https://testnets.opensea.io/collection/capstoneerc721token-v4
+
+## Minted Token
+
+```
+0x7c4b2437760da465ca1c8521f1ced7a2090fc206af4e1b7580b3e142f58c32fc
+0x688bdf729addfa4ad11f184848440eb7469896fa1106e1513c3c002c8704d0c7
+0xe262286e587b5de4929660107ca348b7d47822fdd150f4d3ae5e03ec0be941f3
+0x068afb53094adf5a9fef07a950a5c1eb7786f3424c3cd677e92781ad5a66a9da
+0x9de757cbc225a80b300609a0efb845b8e96f04df9e48035b2683190c19916735
+0xf8e3b16175d434f1014f2eaa094b5caa5d2d23f9d65de32fba973a1bea333687
+0x695d569341cbf433c9d4ca653db6743840a2e123a79613f80e2bed2d32688a0b
+0x956997435b0f6266c6f97787589419cb6716e1964b030fa23956b1b66878f09c
+0x57aba09efdd8a36c4bb20e740697eb3b296b01ac942bfba7c7e901fe87e358e9
+0x49dbd481b83ee30fc74407d4c75c0caa6efbc936f5018189ede388a45f342b0b
+```
+
 ## Libraries
 
 ```bash
@@ -78,102 +107,80 @@ Compiling your contracts...
 Compiling your contracts...
 ===========================
 > Everything is up to date, there is nothing to compile.
-⠏ Fetching solc version list from solc-bin. Attempt #1
 ⠴ Fetching solc version list from solc-bin. Attempt #1
-Migrations dry-run (simulation)
-===============================
-> Network name:    'rinkeby-fork'
-> Network id:      4
-> Block gas limit: 29970705 (0x1c95111)
-
-
-1_initial_migration.js
-======================
-⠇ Fetching solc version list from solc-bin. Attempt #1
-   Deploying 'Migrations'
-   ----------------------
-   > block number:        11371320solc-bin. Attempt #1
-   > block timestamp:     1663044950
-   > account:             0x4656691A3E008D4BB037e711042aaD3603612b0a
-   > balance:             4.281374071
-   > gas used:            274088 (0x42ea8)
-   > gas price:           50 gwei
-   > value sent:          0 ETH
-   > total cost:          0.0137044 ETH
-
-   -------------------------------------in. Attempt #1
-   > Total cost:           0.0137044 ETH
-
-
-2_deploy_contracts.js
-=====================
-⠴ Fetching solc version list from solc-bin. Attempt #1
-   Deploying 'Verifier'
-   --------------------
-   > block number:        11371322solc-bin. Attempt #1
-   > block timestamp:     1663044956
-   > account:             0x4656691A3E008D4BB037e711042aaD3603612b0a
-   > balance:             4.212862171
-   > gas used:            1324303 (0x14350f)
-   > gas price:           50 gwei
-   > value sent:          0 ETH
-   > total cost:          0.06621515 ETH
-
-⠇ Fetching solc version list from solc-bin. Attempt #1
-   Deploying 'SolnSquareVerifier'
-   ------------------------------
-   > block number:        11371323solc-bin. Attempt #1
-   > block timestamp:     1663044978
-   > account:             0x4656691A3E008D4BB037e711042aaD3603612b0a
-   > balance:             4.036378271
-   > gas used:            3529678 (0x35dbce)
-   > gas price:           50 gwei
-   > value sent:          0 ETH
-   > total cost:          0.1764839 ETH
-
-   -------------------------------------in. Attempt #1
-   > Total cost:          0.24269905 ETH
-
-Summary
-=======
-> Total deployments:   3
-> Final cost:          0.25640345 ETH
-
-
 ⠙ Fetching solc version list from solc-bin. Attempt #1
-⠦ Fetching solc version list from solc-bin. Attempt #1
 Starting migrations...
 ======================
 > Network name:    'rinkeby'
-> Network id:      4
+> Network id:      5
 > Block gas limit: 30000000 (0x1c9c380)
 
 
 1_initial_migration.js
 ======================
-⠸ Fetching solc version list from solc-bin. Attempt #1
-   Deploying 'Migrations'
+⠦ Fetching solc version list from solc-bin. Attempt #1
+   Replacing 'Migrations'
    ----------------------
-   > transaction hash:    0xd8dd76caae7935e221cab0b2c44538f78fcb1449a557b874e15927962ebff8fa
- *** Deployment Failed ***st from solc-bin. Attempt #1
-   ⠴ Blocks: 50           Seconds: 756
-"Migrations" -- Transaction was not mined within 750 seconds, please make sure your transaction was properly sent. Be aware that it might still be mined! -- Reason given: Custom error (could not decode)..
+   > transaction hash:    0x52707fa344d85796fe25d4250250b94758d500b73270f2c78d3e34a711b852e6
+   > Blocks: 1            Seconds: 20c-bin. Attempt #1
+   > contract address:    0x3E137FB2f50AE48fd600727FF681284A8F164ec7
+   > block number:        7583810
+   > block timestamp:     1663065612
+   > account:             0x4656691A3E008D4BB037e711042aaD3603612b0a
+   > balance:             0.336931014833771748
+   > gas used:            274088 (0x42ea8)
+   > gas price:           2.524753784 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000692004715148992 ETH
 
+   > Saving migration to chain.om solc-bin. Attempt #1
+   > Saving artifacts to chain.
+   -------------------------------------
+   > Total cost:     0.000692004715148992 ETH
 
-Exiting: Review successful transactions manually by checking the transaction hashes above on Etherscan.
+⠴ Fetching solc version list from solc-bin. Attempt #1
+2_deploy_contracts.js
+=====================
+⠦ Fetching solc version list from solc-bin. Attempt #1
+   Deploying 'Verifier'
+   --------------------
+   > transaction hash:    0x0d4b269be9cf75acd94e391e6328ce58d2313b7b6399b142594e5e4249ec547b
+   > Blocks: 1            Seconds: 32c-bin. Attempt #1
+   > contract address:    0x2FC3EC36bcD4A7685bbe0C9AEb7f81b44FdA694F
+   > block number:        7583814
+   > block timestamp:     1663065672
+   > account:             0x4656691A3E008D4BB037e711042aaD3603612b0a
+   > balance:             0.333471582127112225
+   > gas used:            1324303 (0x14350f)
+   > gas price:           2.524676676 gwei
+   > value sent:          0 ETH
+   > total cost:          0.003343436896056828 ETH
 
+⠙ Fetching solc version list from solc-bin. Attempt #1
+   Deploying 'SolnSquareVerifier'
+   ------------------------------
+   > transaction hash:    0xeeec867855f5045d2f9a23668becdeb843411128bb071bb0eaa91969ed9f2d3b
+   > Blocks: 1            Seconds: 20c-bin. Attempt #1
+   > contract address:    0x6d49a7868C37C35173DCa74337D3c7506fD88117
+   > block number:        7583815
+   > block timestamp:     1663065696
+   > account:             0x4656691A3E008D4BB037e711042aaD3603612b0a
+   > balance:             0.324558547278252395
+   > gas used:            3529690 (0x35dbda)
+   > gas price:           2.525160807 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00891303484885983 ETH
 
-Error:  *** Deployment Failed ***
+   > Saving migration to chain.om solc-bin. Attempt #1
+   > Saving artifacts to chain.
+   -------------------------------------
+   > Total cost:     0.012256471744916658 ETH
 
-"Migrations" -- Transaction was not mined within 750 seconds, please make sure your transaction was properly sent. Be aware that it might still be mined! -- Reason given: Custom error (could not decode)..
-...
-Truffle v5.5.28 (core: 5.5.28)
-Node v16.17.0
+Summary
+=======
+> Total deployments:   3
+> Final cost:          0.01294847646006565 ETH
 ```
-
-## Rinkeby Contract Address:
-
-https://rinkeby.etherscan.io/address/0x4656691a3e008d4bb037e711042aad3603612b0a
 
 ## ABI
 
