@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: CC BY-NC-ND 4.0
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "./ERC721Mintable.sol";
@@ -15,86 +15,63 @@ import "./verifier.sol";
 //  - make sure the solution is unique (has not been used before)
 //  - make sure you handle metadata as well as tokenSuplly
 
+interface IVerifier {
+    function _verifyTx(
+        uint256[2] memory a,
+        uint256[2][2] memory b,
+        uint256[2] memory c,
+        uint256[1] memory input
+    ) external view returns (bool r);
+}
+
 contract SolnSquareVerifier is CapstoneERC721Token {
-    Verifier private verifierContract;
-    uint256 private index;
-
-    struct Proof {
-        uint256[2] a;
-        uint256[2][2] b;
-        uint256[2] c;
-    }
     struct Solution {
-        Proof _proof;
-        uint256[3] _input;
-        address _submitter;
-        uint256 _index;
+        address addr;
+        uint256 index;
     }
 
-    mapping(bytes32 => bool) solutions;
+    Solution[] private solutions;
 
-    event SolutionAdded(address indexed submitter, uint256 index, bytes32 hash);
+    //  define a mapping to store unique solutions submitted
+    mapping(uint256 => Solution) private uniqueSolutions;
 
-    constructor(address _verifierContract) {
-        verifierContract = Verifier(_verifierContract);
+    event SolutionAdded(address indexed addr, uint256 indexed index);
+
+    IVerifier private verifier;
+
+    constructor(
+        address _contractAddress,
+        string memory _name,
+        string memory _symbol
+    ) CapstoneERC721Token(_name, _symbol) {
+        verifier = IVerifier(_contractAddress);
     }
 
-    function submitProof(Proof memory proof_, uint256[3] memory input_)
-        internal
-    {
-        Solution memory solution = Solution({
-            _proof: proof_,
-            _input: input_,
-            _submitter: msg.sender,
-            _index: index
-        });
+    function addSolution(Solution memory solution) public {
+        uint256 index = solution.index;
 
-        bytes32 hash = keccak256(abi.encode(solution));
+        solutions.push(solution);
+        uniqueSolutions[index] = solution;
 
-        // Does the solution exist already?
-        require(!solutions[hash], "Solution exists already");
-
-        // Verify the proof
-        require(
-            verifierContract.verifyTx(proof_.a, proof_.b, proof_.c, input_),
-            "Solution not valid"
-        );
-
-        // Proof is valid so add it to the array
-        solutions[hash] = true;
-
-        emit SolutionAdded(msg.sender, index++, hash);
+        emit SolutionAdded(solution.addr, index);
     }
 
-    /**
-     * @notice This function mints a new token after verifying that the sender
-     * has indeed solved the key and that the solution is unique
-     * @param tokenId The token ID to mint
-     * @param proof The proof of the solution
-     * @param input The input of the proof
-     */
     function mintNFT(
         uint256 tokenId,
-        Proof memory proof,
-        uint256[3] memory input
-    ) public {
-        // Check that the solution is unique
-        bytes32 hash = keccak256(abi.encode(proof, input));
-        require(!solutions[hash], "Solution exists already");
-
-        // Verify the proof
+        uint256[2] memory a,
+        uint256[2][2] memory b,
+        uint256[2] memory c,
+        uint256[1] memory input
+    ) external {
         require(
-            verifierContract.verifyTx(proof.a, proof.b, proof.c, input),
-            "Solution not valid"
+            uniqueSolutions[tokenId].addr == address(0),
+            "Solution already exists"
         );
+        require(verifier._verifyTx(a, b, c, input), "Verification failed");
 
-        // Proof is valid so add it to the array
-        solutions[hash] = true;
+        Solution memory sol = Solution({addr: msg.sender, index: tokenId});
 
-        // Mint the token
-        super._mint(msg.sender, tokenId);
-
-        // Emit the event
-        emit SolutionAdded(msg.sender, index++, hash);
+        addSolution(sol);
+        mint(msg.sender, tokenId);
     }
 }
